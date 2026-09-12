@@ -160,19 +160,35 @@
     color: var(--blue);
   }
   .portada-title{
-    font-size: 2.6em;
+    font-size: clamp(2.8rem, 5vw, 4.5rem);
     font-weight: 700;
-    line-height: 1.1;
+    line-height: 1.15;
     margin: 0;
-    color: var(--text);
-    max-width: 11em;
+    max-width: 14em;
   }
+  .portada-title .line{ display: block; }
+  .portada-title .line-white{ color: var(--text); }
+  .portada-title .line-blue{ color: var(--blue); }
   .portada-subtitle{
-    font-size: 1.05em;
+    font-size: 1.2rem;
     font-weight: 400;
     color: var(--text-dim);
+    opacity: 0.85;
     max-width: 26em;
     line-height: 1.5;
+  }
+  .portada-badge{
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    color: var(--text-dim);
+    background: var(--bg-raise);
+    border: 1px solid rgba(255,255,255,0.22);
+    border-radius: 999px;
+    padding: 0.7em 1.6em;
   }
   .portada-meta{
     display: flex;
@@ -184,14 +200,14 @@
   }
   .portada-meta-item{ display: flex; flex-direction: column; gap: 0.3em; }
   .portada-meta-item .label{
-    font-size: 0.42em;
+    font-size: 0.7rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--text-faint);
     font-weight: 600;
   }
   .portada-meta-item .value{
-    font-size: 0.55em;
+    font-size: 0.85rem;
     color: var(--text);
     font-weight: 600;
   }
@@ -442,21 +458,25 @@
          ============================================================ -->
     <section class="slide-portada">
       <div class="slide portada-layout">
-        <div class="portada-kicker">Causal Inference — Presentación de paper</div>
-        <h1 class="portada-title">[CONTENIDO SLIDE 1 — Título del paper]</h1>
-        <p class="portada-subtitle">[CONTENIDO SLIDE 1 — Subtítulo / una línea que resuma la pregunta de investigación]</p>
+        <div class="portada-kicker">Inferencia Causal — Presentación de paper</div>
+        <h1 class="portada-title">
+          <span class="line line-white">¿Funcionan las auditorías?</span>
+          <span class="line line-blue">Evidencia experimental de México</span>
+        </h1>
+        <p class="portada-subtitle">Un experimento de campo pre-registrado sobre cumplimiento municipal con el programa FISM</p>
+        <span class="portada-badge">Journal of Development Economics, 2023</span>
         <div class="portada-meta">
           <div class="portada-meta-item">
             <span class="label">Autores</span>
-            <span class="value">[CONTENIDO SLIDE 1 — Autores del paper]</span>
+            <span class="value">De La O, Fernández-Vázquez &amp; Martel García</span>
           </div>
           <div class="portada-meta-item">
             <span class="label">Presenta</span>
-            <span class="value">[CONTENIDO SLIDE 1 — Nombre del presentador]</span>
+            <span class="value">Jhonatan Román Román</span>
           </div>
           <div class="portada-meta-item">
             <span class="label">Curso / Fecha</span>
-            <span class="value">[CONTENIDO SLIDE 1 — Curso y fecha]</span>
+            <span class="value">Inferencia Causal · Semana 4 · Septiembre 2026</span>
           </div>
         </div>
       </div>
