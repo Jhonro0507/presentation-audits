@@ -270,45 +270,173 @@
   }
 
   /* ==========================================================
-     4. DISEÑO EXPERIMENTAL
+     4. DISEÑO EXPERIMENTAL — diagrama de asignación
      ========================================================== */
-  .diseno-layout{
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 1.4em;
-    justify-content: center;
-  }
-  .diseno-arms{
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.2em;
-  }
-  .diseno-arm .card-label{ font-size: 0.48em; }
-  .diseno-timeline{
+  .diseno-heading-row{
     display: flex;
     align-items: center;
-    gap: 0.8em;
-    margin-top: 0.4em;
+    flex-wrap: wrap;
+    gap: 1em;
   }
-  .diseno-timeline .point{
+  .pap-badge{
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    color: var(--orange);
+    background: transparent;
+    border: 1px solid var(--orange);
+    border-radius: 999px;
+    padding: 0.4em 1em;
+    white-space: nowrap;
+  }
+
+  /* --- diagrama central: origen -> conector -> brazos --- */
+  .diseno-diagram{
+    display: flex;
+    align-items: stretch;
+    height: 100%;
+    min-height: 0;
+  }
+  .diseno-origen{
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+  }
+  .origen-box{
+    background: #1a1f2e;
+    border: 2px solid var(--blue);
+    border-radius: 16px;
+    padding: 1.5em 1.9em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25em;
+    text-align: center;
+  }
+  .origen-number{
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: var(--blue);
+    line-height: 1;
+  }
+  .origen-label{
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-dim);
+  }
+  .origen-sublabel{
+    font-size: 0.7rem;
+    color: var(--text-faint);
+  }
+
+  .diseno-conector{
+    flex: 0 0 90px;
+    display: flex;
+    align-items: stretch;
+  }
+  .conector-svg{
+    width: 90px;
+    height: 100%;
+    display: block;
+    overflow: visible;
+  }
+  .conector-svg path{
+    fill: none;
+    stroke: var(--blue);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    opacity: 0.55;
+  }
+
+  .diseno-brazos{
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 0.9em;
+  }
+  .brazo-card{
+    background: #1a1f2e;
+    border-left: 4px solid var(--blue);
+    border-radius: 10px;
+    padding: 0.9em 1.4em;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35em;
+  }
+  .brazo-header{
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--blue);
+  }
+  .brazo-n{
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1;
+  }
+  .brazo-desc{
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    line-height: 1.4;
+  }
+  .brazo-ef{ border-left-color: var(--green); }
+  .brazo-ef .brazo-header{ color: var(--green); }
+  .brazo-control{
+    background: #141820;
+    border-left-color: #555;
+  }
+  .brazo-control .brazo-header{ color: #888; }
+  .brazo-control .brazo-n{ color: #aaa; }
+
+  /* --- timeline inferior --- */
+  .diseno-timeline{
+    flex: 0 0 auto;
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    margin-top: 0.6em;
+  }
+  .diseno-timeline .timeline-track{
+    position: absolute;
+    top: 6px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #333;
+  }
+  .timeline-point{
+    position: relative;
     flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.5em;
     text-align: center;
+    gap: 0.45em;
   }
-  .diseno-timeline .marker{
-    width: 0.7em;
-    height: 0.7em;
+  .timeline-dot{
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
     background: var(--blue);
+    border: 2px solid var(--bg);
   }
-  .diseno-timeline .line{
-    flex: 2;
-    height: 2px;
-    background: var(--border);
+  .timeline-year{
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .timeline-label{
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    max-width: 14em;
+    line-height: 1.35;
   }
 
   /* ==========================================================
@@ -469,6 +597,22 @@
   .reveal .controls{
     color: var(--text-dim);
   }
+
+  @keyframes nodePulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(79,142,247,0); }
+    50% { box-shadow: 0 0 0 14px rgba(79,142,247,0.3); }
+  }
+  #rct-node { animation: nodePulse 1.4s ease-in-out 0.5s 2; }
+
+  .rct-card {
+    opacity: 0;
+    transform: translateX(16px);
+    transition: opacity 0.38s ease, transform 0.38s ease;
+  }
+  .rct-card.visible {
+    opacity: 1 !important;
+    transform: translateX(0) !important;
+  }
 </style>
 </head>
 <body>
@@ -535,32 +679,151 @@
     <!-- ============================================================
          SLIDE 3 — DISEÑO EXPERIMENTAL
          ============================================================ -->
-    <section class="slide-diseno" style="--accent:var(--blue); --accent-soft:var(--blue-soft);">
+    <section id="slide-3" class="slide-diseno" style="--accent:var(--blue); --accent-soft:var(--blue-soft);">
       <div class="slide">
         <div class="slide-eyebrow"><span class="dot"></span><span class="accent-text">02</span>&nbsp;· Diseño experimental</div>
-        <h2 class="slide-title">[CONTENIDO SLIDE 3 — <span class="accent">Título del diseño</span>]</h2>
-        <div class="slide-content diseno-layout">
-          <div class="diseno-arms">
-            <div class="diseno-arm card">
-              <div class="card-label">Grupo de control</div>
-              <p class="placeholder">[CONTENIDO SLIDE 3 — Descripción del grupo de control]</p>
-            </div>
-            <div class="diseno-arm card" style="--accent:var(--orange);">
-              <div class="card-label">Tratamiento 1</div>
-              <p class="placeholder">[CONTENIDO SLIDE 3 — Descripción del tratamiento 1]</p>
-            </div>
-            <div class="diseno-arm card" style="--accent:var(--green);">
-              <div class="card-label">Tratamiento 2</div>
-              <p class="placeholder">[CONTENIDO SLIDE 3 — Descripción del tratamiento 2]</p>
+        <div class="diseno-heading-row">
+          <h2 class="slide-title">Un RCT de tres brazos pre-registrado</h2>
+          <span class="pap-badge">⚑ PAP pre-registrado</span>
+        </div>
+
+        <div style="display:flex;flex-direction:row;align-items:stretch;height:270px;gap:0;margin:0.8rem 0;">
+
+          <!-- NODE -->
+          <div style="display:flex;align-items:center;justify-content:flex-start;flex-shrink:0;width:150px;">
+            <div id="rct-node" style="width:128px;height:128px;border:2px solid #4f8ef7;border-radius:14px;background:#141820;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;">
+              <span style="font-size:2.8rem;font-weight:800;color:#4f8ef7;line-height:1;">85</span>
+              <span style="font-size:0.75rem;font-weight:600;color:#e8e8e8;">municipios</span>
+              <span style="font-size:0.65rem;color:#888;">17 estados</span>
             </div>
           </div>
-          <div class="diseno-timeline">
-            <div class="point"><div class="marker"></div><span class="placeholder">[CONTENIDO SLIDE 3 — Hito 1: aleatorización]</span></div>
-            <div class="line"></div>
-            <div class="point"><div class="marker"></div><span class="placeholder">[CONTENIDO SLIDE 3 — Hito 2: intervención]</span></div>
-            <div class="line"></div>
-            <div class="point"><div class="marker"></div><span class="placeholder">[CONTENIDO SLIDE 3 — Hito 3: medición de resultados]</span></div>
+
+          <!-- SVG CONNECTOR — fixed 90×270, viewBox matches -->
+          <div style="flex-shrink:0;width:90px;position:relative;">
+            <svg id="rct-svg" viewBox="0 0 90 270" width="90" height="270" style="display:block;overflow:visible;">
+              <!-- vertical stem: y1=41 (center card1), y2=229 (center card3), length=188 -->
+              <line id="rct-stem"     x1="10" y1="41"  x2="10" y2="229" stroke="#4f8ef7" stroke-width="2"
+                    stroke-dasharray="188" stroke-dashoffset="188"/>
+              <!-- branch to ASF: y=41, length=80 -->
+              <line id="rct-branch-1" x1="10" y1="41"  x2="90" y2="41"  stroke="#4f8ef7" stroke-width="2"
+                    stroke-dasharray="80"  stroke-dashoffset="80"/>
+              <!-- branch to EF: y=135 -->
+              <line id="rct-branch-2" x1="10" y1="135" x2="90" y2="135" stroke="#4faf7a" stroke-width="2"
+                    stroke-dasharray="80"  stroke-dashoffset="80"/>
+              <!-- branch to Control: y=229 -->
+              <line id="rct-branch-3" x1="10" y1="229" x2="90" y2="229" stroke="#777"   stroke-width="2"
+                    stroke-dasharray="80"  stroke-dashoffset="80"/>
+            </svg>
           </div>
+
+          <!-- CARDS — 3 × 82px + 2 × 12px gap = 270px total -->
+          <div style="flex:1;display:flex;flex-direction:column;gap:12px;">
+
+            <div id="card-asf" class="fragment rct-card" data-fragment-index="1"
+                 style="height:82px;background:#141820;border-radius:8px;border-left:4px solid #4f8ef7;
+                        padding:0.75rem 1rem;display:flex;flex-direction:column;justify-content:center;gap:3px;">
+              <p style="font-size:0.6rem;letter-spacing:0.14em;text-transform:uppercase;color:#4f8ef7;font-weight:600;margin:0;">Federal · ASF</p>
+              <p style="font-size:1.55rem;font-weight:800;margin:0;line-height:1;">n = 17</p>
+              <p style="font-size:0.76rem;color:#aaa;margin:0;">Mayor independencia · Reportes más severos</p>
+            </div>
+
+            <div id="card-ef" class="fragment rct-card" data-fragment-index="2"
+                 style="height:82px;background:#141820;border-radius:8px;border-left:4px solid #4faf7a;
+                        padding:0.75rem 1rem;display:flex;flex-direction:column;justify-content:center;gap:3px;">
+              <p style="font-size:0.6rem;letter-spacing:0.14em;text-transform:uppercase;color:#4faf7a;font-weight:600;margin:0;">Estatal · EF</p>
+              <p style="font-size:1.55rem;font-weight:800;margin:0;line-height:1;">n = 17</p>
+              <p style="font-size:0.76rem;color:#aaa;margin:0;">Dependencia política local · Reportes menos severos</p>
+            </div>
+
+            <div id="card-control" class="fragment rct-card" data-fragment-index="3"
+                 style="height:82px;background:#111520;border-radius:8px;border-left:4px solid #555;
+                        padding:0.75rem 1rem;display:flex;flex-direction:column;justify-content:center;gap:3px;">
+              <p style="font-size:0.6rem;letter-spacing:0.14em;text-transform:uppercase;color:#666;font-weight:600;margin:0;">Control</p>
+              <p style="font-size:1.55rem;font-weight:800;margin:0;line-height:1;color:#aaa;">n = 51</p>
+              <p style="font-size:0.76rem;color:#555;margin:0;">Sin intervención · Proporción 1:1:3</p>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="fragment" data-fragment-index="4"
+             style="margin-top:0.6rem;padding:0.5rem 0 0.2rem;">
+          <svg viewBox="0 0 900 130" width="100%" height="110"
+               style="display:block;overflow:visible;" font-family="Inter,sans-serif">
+
+            <!-- ── HORIZONTAL AXIS ── -->
+            <line x1="30" y1="65" x2="870" y2="65" stroke="#444" stroke-width="1.5"/>
+            <!-- arrow tip -->
+            <polygon points="870,60 880,65 870,70" fill="#444"/>
+
+            <!-- ── YEAR LABELS ── -->
+            <text x="80"  y="85" text-anchor="middle" font-size="13" fill="#888">2010</text>
+            <text x="280" y="85" text-anchor="middle" font-size="13" fill="#888">2011</text>
+            <text x="480" y="85" text-anchor="middle" font-size="13" fill="#888">2012</text>
+            <text x="650" y="85" text-anchor="middle" font-size="13" fill="#888">2013</text>
+            <text x="840" y="85" text-anchor="middle" font-size="13" fill="#888">2014</text>
+
+            <!-- ── TICK MARKS ── -->
+            <line x1="80"  y1="60" x2="80"  y2="70" stroke="#555" stroke-width="1.5"/>
+            <line x1="280" y1="60" x2="280" y2="70" stroke="#555" stroke-width="1.5"/>
+            <line x1="480" y1="60" x2="480" y2="70" stroke="#555" stroke-width="1.5"/>
+            <line x1="650" y1="60" x2="650" y2="70" stroke="#555" stroke-width="1.5"/>
+            <line x1="840" y1="60" x2="840" y2="70" stroke="#555" stroke-width="1.5"/>
+
+            <!-- ── DOTTED VERTICALS at 2011 and 2012 ── -->
+            <line x1="280" y1="18" x2="280" y2="65" stroke="#4f8ef7" stroke-width="1.2"
+                  stroke-dasharray="4,3" opacity="0.7"/>
+            <line x1="480" y1="18" x2="480" y2="65" stroke="#4faf7a" stroke-width="1.2"
+                  stroke-dasharray="4,3" opacity="0.7"/>
+
+            <!-- ── BRACKET above: 2010 municipal expenditures (2010→2011) ── -->
+            <path d="M82,50 Q82,40 92,40 L268,40 Q278,40 278,50"
+                  fill="none" stroke="#666" stroke-width="1.2"/>
+            <text x="180" y="32" text-anchor="middle" font-size="10.5" fill="#888">
+              <tspan x="180" dy="0">2010 municipal</tspan>
+              <tspan x="180" dy="12">expenditures</tspan>
+            </text>
+
+            <!-- ── LABEL above 2011: 2010 Public Accounts Report ── -->
+            <text x="280" y="14" text-anchor="middle" font-size="10.5" fill="#4f8ef7" font-weight="700">
+              <tspan x="280" dy="0">2010 Public Accounts</tspan>
+              <tspan x="280" dy="12">Report</tspan>
+            </text>
+
+            <!-- ── BRACKET above: Audit of 2010 public accounts (2011→2012) ── -->
+            <path d="M282,50 Q282,43 292,43 L468,43 Q478,43 478,50"
+                  fill="none" stroke="#666" stroke-width="1.2"/>
+            <text x="380" y="36" text-anchor="middle" font-size="10" fill="#888">Audit of 2010 public accounts</text>
+
+            <!-- ── LABEL above 2012: 2010 Audit Report ── -->
+            <text x="480" y="14" text-anchor="middle" font-size="10.5" fill="#4faf7a" font-weight="700">
+              <tspan x="480" dy="0">2010 Audit</tspan>
+              <tspan x="480" dy="12">Report</tspan>
+            </text>
+
+            <!-- ── BRACKET above: 2012 municipal expenditures (2012→2013) ── -->
+            <path d="M482,55 Q482,46 492,46 L638,46 Q648,46 648,55"
+                  fill="none" stroke="#666" stroke-width="1.2"/>
+            <text x="565" y="38" text-anchor="middle" font-size="10" fill="#888">2012 municipal expenditures</text>
+
+            <!-- ── LABEL above 2014: 2012 Municipal Expenditure Report ── -->
+            <text x="840" y="14" text-anchor="middle" font-size="10" fill="#4f8ef7" font-weight="700">
+              <tspan x="840" dy="0">2012 Municipal Expenditure</tspan>
+              <tspan x="840" dy="12">Report (INEGI)</tspan>
+            </text>
+
+            <!-- ── BELOW LINE: Random assignment ── -->
+            <text x="280" y="100" text-anchor="middle" font-size="10" fill="#888">Random assignment</text>
+
+            <!-- ── BELOW LINE: Protocol registration ── -->
+            <text x="480" y="115" text-anchor="middle" font-size="10" fill="#888">Protocol registration</text>
+
+            <!-- ── BRACKET below + End-line Survey (2012→2012.5) ── -->
+            <path d="M482,72 Q482,80 492,80 L548,80 Q558,80 558,72"
+                  fill="none" stroke="#666" stroke-width="1.2"/>
+            <text x="520" y="97" text-anchor="middle" font-size="10.5" fill="#e8e8e8" font-weight="700">End-line Survey</text>
+
+          </svg>
         </div>
       </div>
     </section>
@@ -715,6 +978,62 @@
     transition: 'fade',
     transitionSpeed: 'default' /* ~400ms, matches Reveal.js default fade timing */
   });
+</script>
+
+<script>
+(function() {
+  function animateLine(el, duration) {
+    if (!el) return;
+    el.style.transition = 'stroke-dashoffset ' + duration + 'ms cubic-bezier(0.4,0,0.2,1)';
+    el.style.strokeDashoffset = '0';
+  }
+  function resetLine(el, offset) {
+    if (!el) return;
+    el.style.transition = 'none';
+    el.style.strokeDashoffset = String(offset);
+  }
+  Reveal.on('fragmentshown', function(e) {
+    var id      = e.fragment.id;
+    var stem    = document.getElementById('rct-stem');
+    var branch1 = document.getElementById('rct-branch-1');
+    var branch2 = document.getElementById('rct-branch-2');
+    var branch3 = document.getElementById('rct-branch-3');
+
+    if (id === 'card-asf' && branch1) {
+      branch1.style.transition = 'stroke-dashoffset 0.32s ease';
+      branch1.style.strokeDashoffset = '0';
+    }
+    if (id === 'card-ef' && branch2) {
+      branch2.style.transition = 'stroke-dashoffset 0.32s ease';
+      branch2.style.strokeDashoffset = '0';
+    }
+    if (id === 'card-control' && branch3) {
+      branch3.style.transition = 'stroke-dashoffset 0.32s ease';
+      branch3.style.strokeDashoffset = '0';
+      setTimeout(function() {
+        if (stem) {
+          stem.style.transition = 'stroke-dashoffset 0.45s cubic-bezier(0.4,0,0.2,1)';
+          stem.style.strokeDashoffset = '0';
+        }
+      }, 280);
+    }
+  });
+
+  Reveal.on('fragmenthidden', function(e) {
+    var id      = e.fragment.id;
+    var stem    = document.getElementById('rct-stem');
+    var branch1 = document.getElementById('rct-branch-1');
+    var branch2 = document.getElementById('rct-branch-2');
+    var branch3 = document.getElementById('rct-branch-3');
+
+    if (id === 'card-asf' && branch1)    { branch1.style.transition='none'; branch1.style.strokeDashoffset='80'; }
+    if (id === 'card-ef'  && branch2)    { branch2.style.transition='none'; branch2.style.strokeDashoffset='80'; }
+    if (id === 'card-control') {
+      if (branch3) { branch3.style.transition='none'; branch3.style.strokeDashoffset='80'; }
+      if (stem)    { stem.style.transition='none';    stem.style.strokeDashoffset='188'; }
+    }
+  });
+})();
 </script>
 </body>
 </html>
