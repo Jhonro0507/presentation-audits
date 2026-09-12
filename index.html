@@ -223,10 +223,24 @@
     align-items: stretch;
   }
   .problema-narrativa{
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 1em;
+    gap: 1.4em;
+  }
+  .problema-punto{
+    border-left: 3px solid var(--blue);
+    padding-left: 1.1em;
+  }
+  .problema-punto.problema-punto--tension{
+    border-left-color: var(--orange);
+  }
+  .problema-punto p{
+    margin: 0;
+    font-size: 1.05rem;
+    color: var(--text);
+    line-height: 1.5;
   }
   .problema-stat{
     display: flex;
@@ -236,15 +250,23 @@
     text-align: left;
   }
   .problema-stat .stat-number{
-    font-size: 2.4em;
+    font-size: clamp(5rem, 9vw, 7.5rem);
     font-weight: 700;
-    color: var(--red);
+    color: var(--orange);
     line-height: 1;
   }
   .problema-stat .stat-caption{
-    font-size: 0.55em;
+    font-size: 1.05rem;
     color: var(--text-dim);
     line-height: 1.4;
+  }
+  .problema-stat .stat-source{
+    font-size: 0.75rem;
+    color: var(--text-faint);
+    line-height: 1.4;
+    margin-top: 0.4em;
+    padding-top: 0.8em;
+    border-top: 1px solid var(--border);
   }
 
   /* ==========================================================
@@ -488,15 +510,23 @@
     <section class="slide-problema" style="--accent:var(--red); --accent-soft:var(--red-soft);">
       <div class="slide">
         <div class="slide-eyebrow"><span class="dot"></span><span class="accent-text">01</span>&nbsp;· El problema</div>
-        <h2 class="slide-title">[CONTENIDO SLIDE 2 — <span class="accent">Título del problema</span>]</h2>
+        <h2 class="slide-title">El problema de la rendición de cuentas municipal</h2>
         <div class="slide-content problema-layout">
           <div class="problema-narrativa">
-            <p class="placeholder">[CONTENIDO SLIDE 2 — Descripción del problema económico/regulatorio que motiva el paper]</p>
-            <p class="placeholder">[CONTENIDO SLIDE 2 — Por qué es relevante para política pública o cumplimiento normativo]</p>
+            <div class="problema-punto">
+              <p>Los gobiernos nacionales dependen de transferencias intergubernamentales para implementar programas sociales en municipios marginados</p>
+            </div>
+            <div class="problema-punto">
+              <p>El incumplimiento es generalizado: mal gasto, opacidad, desvío de fondos — comprometiendo servicios básicos para los más pobres</p>
+            </div>
+            <div class="problema-punto problema-punto--tension">
+              <p>Las auditorías son el remedio institucional propuesto. Pero hay poca evidencia causal de que funcionen.</p>
+            </div>
           </div>
           <div class="problema-stat card">
-            <div class="stat-number">[CONTENIDO SLIDE 2 — Cifra clave]</div>
-            <div class="stat-caption">[CONTENIDO SLIDE 2 — Descripción de la cifra / fuente]</div>
+            <div class="stat-number">73%</div>
+            <div class="stat-caption">de los recursos municipales para infraestructura proviene del FISM</div>
+            <div class="stat-source">Fondo para la Infraestructura Social Municipal · Fuente: Rodden, 2019</div>
           </div>
         </div>
       </div>
