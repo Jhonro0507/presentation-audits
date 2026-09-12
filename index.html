@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Auditorías, cumplimiento y experimento de campo</title>
+
+<!-- Reveal.js core (CDN) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css">
+
+<!-- Google Fonts: Inter -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+  /* ==========================================================
+     0. TOKENS
+     ========================================================== */
+  :root{
+    --bg:            #0f1117;
+    --bg-raise:      #161923;
+    --bg-card:       #1a1e2b;
+    --border:        rgba(255,255,255,0.08);
+    --text:          #e8e8e8;
+    --text-dim:      #a4aab6;
+    --text-faint:    #6b7180;
+
+    --blue:          #4f8ef7;
+    --orange:        #f7934f;
+    --green:         #4faf7a;
+    --red:           #e05c5c;
+
+    --blue-soft:     rgba(79,142,247,0.12);
+    --orange-soft:   rgba(247,147,79,0.12);
+    --green-soft:    rgba(79,175,122,0.12);
+    --red-soft:      rgba(224,92,92,0.12);
+
+    --font:          'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+    /* Reveal.js theme hooks */
+    --r-background-color: var(--bg);
+    --r-main-color: var(--text);
+    --r-main-font: var(--font);
+    --r-heading-color: var(--text);
+    --r-heading-font: var(--font);
+    --r-heading-font-weight: 700;
+    --r-link-color: var(--blue);
+    --r-selection-background-color: var(--blue-soft);
+  }
+
+  html, body{ background: var(--bg); }
+
+  /* Reveal.js core CSS ships its own (light) background on these
+     elements; the base theme wins the cascade unless we force it. */
+  html, body{ background: #0f1117 !important; }
+  .reveal-viewport{ background: #0f1117 !important; }
+  .reveal{ background: #0f1117 !important; }
+  .reveal .slides section{ background: transparent !important; }
+
+  .reveal{ font-family: var(--font); color: var(--text); font-weight: 400; }
+  .reveal .slides{ text-align: left; }
+  .reveal .slides section{ height: 100%; }
+
+  .reveal h1, .reveal h2, .reveal h3, .reveal h4{
+    font-family: var(--font);
+    text-transform: none;
+    letter-spacing: -0.01em;
+  }
+
+  ::selection{ background: var(--blue-soft); color: var(--text); }
+
+  /* ==========================================================
+     1. SLIDE SCAFFOLDING (shared by every section)
+     ========================================================== */
+  .slide{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    padding: 3.2em 4em;
+    box-sizing: border-box;
+    gap: 1.2em;
+  }
+
+  .slide-eyebrow{
+    display: flex;
+    align-items: center;
+    gap: 0.6em;
+    font-size: 0.5em;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+  .slide-eyebrow .dot{
+    width: 0.5em;
+    height: 0.5em;
+    border-radius: 50%;
+    background: var(--accent, var(--blue));
+    flex: none;
+  }
+  .slide-eyebrow .accent-text{ color: var(--accent, var(--blue)); }
+
+  .slide-title{
+    margin: 0;
+    font-size: 1.7em;
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--text);
+  }
+  .slide-title .accent{ color: var(--accent, var(--blue)); }
+
+  .slide-content{
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  /* generic placeholder text style used inside layout slots */
+  .placeholder{
+    color: var(--text-dim);
+    font-weight: 400;
+    font-size: 0.62em;
+    line-height: 1.5;
+  }
+
+  .card{
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.4em 1.6em;
+    box-sizing: border-box;
+  }
+
+  .card-label{
+    font-size: 0.5em;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent, var(--text-dim));
+    margin-bottom: 0.6em;
+  }
+
+  /* ==========================================================
+     2. PORTADA
+     ========================================================== */
+  .portada-layout{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 1.4em;
+  }
+  .portada-kicker{
+    font-size: 0.55em;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--blue);
+  }
+  .portada-title{
+    font-size: 2.6em;
+    font-weight: 700;
+    line-height: 1.1;
+    margin: 0;
+    color: var(--text);
+    max-width: 11em;
+  }
+  .portada-subtitle{
+    font-size: 1.05em;
+    font-weight: 400;
+    color: var(--text-dim);
+    max-width: 26em;
+    line-height: 1.5;
+  }
+  .portada-meta{
+    display: flex;
+    gap: 2.5em;
+    margin-top: 1.2em;
+    padding-top: 1.2em;
+    border-top: 1px solid var(--border);
+    width: 100%;
+  }
+  .portada-meta-item{ display: flex; flex-direction: column; gap: 0.3em; }
+  .portada-meta-item .label{
+    font-size: 0.42em;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    font-weight: 600;
+  }
+  .portada-meta-item .value{
+    font-size: 0.55em;
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  /* ==========================================================
+     3. EL PROBLEMA
+     ========================================================== */
+  .problema-layout{
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 2em;
+    align-items: stretch;
+  }
+  .problema-narrativa{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1em;
+  }
+  .problema-stat{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.6em;
+    text-align: left;
+  }
+  .problema-stat .stat-number{
+    font-size: 2.4em;
+    font-weight: 700;
+    color: var(--red);
+    line-height: 1;
+  }
+  .problema-stat .stat-caption{
+    font-size: 0.55em;
+    color: var(--text-dim);
+    line-height: 1.4;
+  }
+
+  /* ==========================================================
+     4. DISEÑO EXPERIMENTAL
+     ========================================================== */
+  .diseno-layout{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.4em;
+    justify-content: center;
+  }
+  .diseno-arms{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.2em;
+  }
+  .diseno-arm .card-label{ font-size: 0.48em; }
+  .diseno-timeline{
+    display: flex;
+    align-items: center;
+    gap: 0.8em;
+    margin-top: 0.4em;
+  }
+  .diseno-timeline .point{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5em;
+    text-align: center;
+  }
+  .diseno-timeline .marker{
+    width: 0.7em;
+    height: 0.7em;
+    border-radius: 50%;
+    background: var(--blue);
+  }
+  .diseno-timeline .line{
+    flex: 2;
+    height: 2px;
+    background: var(--border);
+  }
+
+  /* ==========================================================
+     5. DATOS Y MEDICIÓN
+     ========================================================== */
+  .datos-layout{
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.4em;
+    align-content: center;
+  }
+  .datos-card{
+    display: flex;
+    flex-direction: column;
+    gap: 0.8em;
+  }
+  .datos-card .card-icon{
+    width: 2.2em;
+    height: 2.2em;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--accent-soft, var(--blue-soft));
+    color: var(--accent, var(--blue));
+    font-weight: 700;
+    font-size: 0.7em;
+  }
+
+  /* ==========================================================
+     6. RESULTADOS PRINCIPALES
+     ========================================================== */
+  .resultados-layout{
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 2.2em;
+    align-items: center;
+  }
+  .resultados-texto{
+    display: flex;
+    flex-direction: column;
+    gap: 1.2em;
+  }
+  .resultados-highlight{
+    display: flex;
+    flex-direction: column;
+    gap: 0.3em;
+  }
+  .resultados-highlight .stat-number{
+    font-size: 2.1em;
+    font-weight: 700;
+    color: var(--green);
+    line-height: 1;
+  }
+  .resultados-highlight .stat-caption{
+    font-size: 0.5em;
+    color: var(--text-dim);
+  }
+  .resultados-grafico{
+    height: 100%;
+    min-height: 280px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .resultados-grafico .placeholder{
+    text-align: center;
+  }
+
+  /* ==========================================================
+     7. MECANISMOS
+     ========================================================== */
+  .mecanismos-layout{
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 1.2em;
+  }
+  .mecanismo-card{
+    display: flex;
+    flex-direction: column;
+    gap: 0.6em;
+    justify-content: center;
+  }
+  .mecanismo-card .mecanismo-index{
+    font-size: 0.5em;
+    font-weight: 700;
+    color: var(--accent, var(--orange));
+    letter-spacing: 0.06em;
+  }
+  .mecanismo-card .mecanismo-title{
+    font-size: 0.72em;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  /* ==========================================================
+     8. CRÍTICA Y VALIDEZ
+     ========================================================== */
+  .critica-layout{
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.6em;
+    align-items: stretch;
+  }
+  .critica-col{
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+  }
+  .critica-col .card{ flex: 1; display: flex; flex-direction: column; gap: 0.6em; justify-content: center; }
+
+  /* ==========================================================
+     9. CONCLUSIÓN Y DISCUSIÓN
+     ========================================================== */
+  .conclusion-layout{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1em;
+  }
+  .conclusion-puntos{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.2em;
+    margin-top: 0.6em;
+  }
+  .conclusion-punto{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+  }
+  .conclusion-punto .bar{
+    width: 2em;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--accent, var(--blue));
+  }
+
+  /* ==========================================================
+     10. REVEAL CHROME (progress bar, slide numbers)
+     ========================================================== */
+  .reveal .progress{
+    color: var(--blue);
+    height: 3px;
+  }
+  .reveal .slide-number{
+    background: transparent;
+    color: var(--text-faint);
+    font-weight: 600;
+    font-size: 0.5em;
+  }
+  .reveal .controls{
+    color: var(--text-dim);
+  }
+</style>
+</head>
+<body>
+<div class="reveal" data-background-color="#0f1117">
+  <div class="slides">
+
+    <!-- ============================================================
+         SLIDE 1 — PORTADA
+         ============================================================ -->
+    <section class="slide-portada">
+      <div class="slide portada-layout">
+        <div class="portada-kicker">Causal Inference — Presentación de paper</div>
+        <h1 class="portada-title">[CONTENIDO SLIDE 1 — Título del paper]</h1>
+        <p class="portada-subtitle">[CONTENIDO SLIDE 1 — Subtítulo / una línea que resuma la pregunta de investigación]</p>
+        <div class="portada-meta">
+          <div class="portada-meta-item">
+            <span class="label">Autores</span>
+            <span class="value">[CONTENIDO SLIDE 1 — Autores del paper]</span>
+          </div>
+          <div class="portada-meta-item">
+            <span class="label">Presenta</span>
+            <span class="value">[CONTENIDO SLIDE 1 — Nombre del presentador]</span>
+          </div>
+          <div class="portada-meta-item">
+            <span class="label">Curso / Fecha</span>
+            <span class="value">[CONTENIDO SLIDE 1 — Curso y fecha]</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SLIDE 2 — EL PROBLEMA
+         ============================================================ -->
+    <section class="slide-problema" style="--accent:var(--red); --accent-soft:var(--red-soft);">
+      <div class="slide">
+        <div class="slide-eyebrow"><span class="dot"></span><span class="accent-text">01</span>&nbsp;· El problema</div>
+        <h2 class="slide-title">[CONTENIDO SLIDE 2 — <span class="accent">Título del problema</span>]</h2>
+        <div class="slide-content problema-layout">
+          <div class="problema-narrativa">
+            <p class="placeholder">[CONTENIDO SLIDE 2 — Descripción del problema económico/regulatorio que motiva el paper]</p>
+            <p class="placeholder">[CONTENIDO SLIDE 2 — Por qué es relevante para política pública o cumplimiento normativo]</p>
+          </div>
+          <div class="problema-stat card">
+            <div class="stat-number">[CONTENIDO SLIDE 2 — Cifra clave]</div>
+            <div class="stat-caption">[CONTENIDO SLIDE 2 — Descripción de la cifra / fuente]</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SLIDE 3 — DISEÑO EXPERIMENTAL
+         ============================================================ -->
+    <section class="slide-diseno" style="--accent:var(--blue); --accent-soft:var(--blue-soft);">
+      <div class="slide">
+        <div class="slide-eyebrow"><span class="dot"></span><span class="accent-text">02</span>&nbsp;· Diseño experimental</div>
+        <h2 class="slide-title">[CONTENIDO SLIDE 3 — <span class="accent">Título del diseño</span>]</h2>
+        <div class="slide-content diseno-layout">
+          <div class="diseno-arms">
+            <div class="diseno-arm card">
+              <div class="card-label">Grupo de control</div>
+              <p class="placeholder">[CONTENIDO SLIDE 3 — Descripción del grupo de control]</p>
+            </div>
+            <div class="diseno-arm card" style="--accent:var(--orange);">
+              <div class="card-label">Tratamiento 1</div>
+              <p class="placeholder">[CONTENIDO SLIDE 3 — Descripción del tratamiento 1]</p>
+            </div>
+            <div class="diseno-arm card" style="--accent:var(--green);">
+              <div class="card-label">Tratamiento 2</div>
+              <p class="placeholder">[CONTENIDO SLIDE 3 — Descripción del tratamiento 2]</p>
+            </div>
+          </div>
+          <div class="diseno-timeline">
+            <div class="point"><div class="marker"></div><span class="placeholder">[CONTENIDO SLIDE 3 — Hito 1: aleatorización]</span></div>
+            <div class="line"></div>
+            <div class="point"><div class="marker"></div><span class="placeholder">[CONTENIDO SLIDE 3 — Hito 2: intervención]</span></div>
+            <div class="line"></div>
+            <div class="point"><div class="marker"></div><span class="placeholder">[CONTENIDO SLIDE 3 — Hito 3: medición de resultados]</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SLIDE 4 — DATOS Y MEDICIÓN
+         ============================================================ -->
+    <section class="slide-datos" style="--accent:var(--blue); --accent-soft:var(--blue-soft);">
+      <div class="slide">
+        <div class="slide-eyebrow"><span class="dot"></span><span class="accent-text">03</span>&nbsp;· Datos y medición</div>
+        <h2 class="slide-title">[CONTENIDO SLIDE 4 — <span class="accent">Título de la sección de datos</span>]</h2>
+        <div class="slide-content datos-layout">
+          <div class="datos-card card">
+            <div class="card-icon">N</div>
+            <div class="card-label">Muestra</div>
+            <p class="placeholder">[CONTENIDO SLIDE 4 — Tamaño y composición de la muestra]</p>
+          </div>
+          <div class="datos-card card" style="--accent:var(--orange); --accent-soft:var(--orange-soft);">
+            <div class="card-icon">Y</div>
+            <div class="card-label">Variable de resultado</div>
+            <p class="placeholder">[CONTENIDO SLIDE 4 — Definición de la(s) variable(s) dependiente(s)]</p>
+          </div>
+          <div class="datos-card card" style="--accent:var(--green); --accent-soft:var(--green-soft);">
+            <div class="card-icon">S</div>
+            <div class="card-label">Fuente de datos</div>
+            <p class="placeholder">[CONTENIDO SLIDE 4 — Origen de los datos y período de recolección]</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SLIDE 5 — RESULTADOS PRINCIPALES
+         ============================================================ -->
+    <section class="slide-resultados" style="--accent:var(--green); --accent-soft:var(--green-soft);">
+      <div class="slide">
+        <div class="slide-eyebrow"><span class="dot"></span><span class="accent-text">04</span>&nbsp;· Resultados principales</div>
+        <h2 class="slide-title">[CONTENIDO SLIDE 5 — <span class="accent">Título del hallazgo principal</span>]</h2>
+        <div class="slide-content resultados-layout">
+          <div class="resultados-texto">
+            <div class="resultados-highlight">
+              <div class="stat-number">[CONTENIDO SLIDE 5 — Efecto estimado]</div>
+              <div class="stat-caption">[CONTENIDO SLIDE 5 — Unidad, significancia, intervalo de confianza]</div>
+            </div>
+            <p class="placeholder">[CONTENIDO SLIDE 5 — Interpretación del resultado principal]</p>
+          </div>
+          <div class="resultados-grafico card">
+            <p class="placeholder">[CONTENIDO SLIDE 5 — Gráfico / tabla de resultados]</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SLIDE 6 — MECANISMOS
+         ============================================================ -->
+    <section class="slide-mecanismos" style="--accent:var(--orange); --accent-soft:var(--orange-soft);">
+      <div class="slide">
+        <div class="slide-eyebrow"><span class="dot"></span><span class="accent-text">05</span>&nbsp;· Mecanismos</div>
+        <h2 class="slide-title">[CONTENIDO SLIDE 6 — <span class="accent">¿Por qué falló?</span>]</h2>
+        <div class="slide-content mecanismos-layout">
+          <div class="mecanismo-card card">
+            <span class="mecanismo-index">M1</span>
+            <span class="mecanismo-title">[CONTENIDO SLIDE 6 — Mecanismo hipotético 1]</span>
+            <p class="placeholder">[CONTENIDO SLIDE 6 — Explicación breve]</p>
+          </div>
+          <div class="mecanismo-card card">
+            <span class="mecanismo-index">M2</span>
+            <span class="mecanismo-title">[CONTENIDO SLIDE 6 — Mecanismo hipotético 2]</span>
+            <p class="placeholder">[CONTENIDO SLIDE 6 — Explicación breve]</p>
+          </div>
+          <div class="mecanismo-card card">
+            <span class="mecanismo-index">M3</span>
+            <span class="mecanismo-title">[CONTENIDO SLIDE 6 — Mecanismo hipotético 3]</span>
+            <p class="placeholder">[CONTENIDO SLIDE 6 — Explicación breve]</p>
+          </div>
+          <div class="mecanismo-card card">
+            <span class="mecanismo-index">M4</span>
+            <span class="mecanismo-title">[CONTENIDO SLIDE 6 — Mecanismo hipotético 4]</span>
+            <p class="placeholder">[CONTENIDO SLIDE 6 — Explicación breve]</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SLIDE 7 — CRÍTICA Y VALIDEZ
+         ============================================================ -->
+    <section class="slide-critica" style="--accent:var(--red); --accent-soft:var(--red-soft);">
+      <div class="slide">
+        <div class="slide-eyebrow"><span class="dot"></span><span class="accent-text">06</span>&nbsp;· Crítica y validez</div>
+        <h2 class="slide-title">[CONTENIDO SLIDE 7 — <span class="accent">Título de la evaluación crítica</span>]</h2>
+        <div class="slide-content critica-layout">
+          <div class="critica-col">
+            <div class="card-label">Validez interna</div>
+            <div class="card">
+              <p class="placeholder">[CONTENIDO SLIDE 7 — Amenazas a la validez interna: atrición, contaminación, etc.]</p>
+            </div>
+          </div>
+          <div class="critica-col">
+            <div class="card-label" style="--accent:var(--orange); color:var(--orange);">Validez externa</div>
+            <div class="card" style="--accent:var(--orange);">
+              <p class="placeholder">[CONTENIDO SLIDE 7 — Generalización de los resultados a otros contextos]</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SLIDE 8 — CONCLUSIÓN Y DISCUSIÓN
+         ============================================================ -->
+    <section class="slide-conclusion" style="--accent:var(--blue); --accent-soft:var(--blue-soft);">
+      <div class="slide">
+        <div class="slide-eyebrow"><span class="dot"></span><span class="accent-text">07</span>&nbsp;· Conclusión</div>
+        <h2 class="slide-title">[CONTENIDO SLIDE 8 — <span class="accent">Conclusión y discusión</span>]</h2>
+        <div class="slide-content conclusion-layout">
+          <p class="placeholder">[CONTENIDO SLIDE 8 — Síntesis general del argumento del paper]</p>
+          <div class="conclusion-puntos">
+            <div class="conclusion-punto">
+              <div class="bar"></div>
+              <p class="placeholder">[CONTENIDO SLIDE 8 — Implicación de política 1]</p>
+            </div>
+            <div class="conclusion-punto">
+              <div class="bar" style="background:var(--orange);"></div>
+              <p class="placeholder">[CONTENIDO SLIDE 8 — Implicación de política 2]</p>
+            </div>
+            <div class="conclusion-punto">
+              <div class="bar" style="background:var(--green);"></div>
+              <p class="placeholder">[CONTENIDO SLIDE 8 — Agenda de investigación futura]</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<!-- Reveal.js core (CDN) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.js"></script>
+<script>
+  Reveal.initialize({
+    hash: true,
+    controls: true,
+    progress: true,
+    center: false,
+    slideNumber: 'c/t',
+    width: 1280,
+    height: 720,
+    margin: 0.04,
+    transition: 'fade',
+    transitionSpeed: 'default' /* ~400ms, matches Reveal.js default fade timing */
+  });
+</script>
+</body>
+</html>

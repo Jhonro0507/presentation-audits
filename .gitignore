@@ -1,0 +1,27 @@
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor / IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Node (por si se agrega tooling de build o linters más adelante)
+node_modules/
+npm-debug.log*
+yarn-error.log*
+package-lock.json
+
+# Archivos temporales / backups
+*.log
+*.tmp
+*.bak
+*.swp
+~$*
+
+# Exportables locales (no versionar salidas generadas)
+*.pdf
+*.pptx
