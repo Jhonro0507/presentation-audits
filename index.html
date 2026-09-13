@@ -897,21 +897,42 @@
     <!-- ============================================================
          SLIDE 5 — RESULTADOS PRINCIPALES
          ============================================================ -->
-    <section class="slide-resultados" style="--accent:var(--green); --accent-soft:var(--green-soft);">
-      <div class="slide">
-        <div class="slide-eyebrow"><span class="dot"></span><span class="accent-text">04</span>&nbsp;· Resultados principales</div>
-        <h2 class="slide-title">[CONTENIDO SLIDE 5 — <span class="accent">Título del hallazgo principal</span>]</h2>
-        <div class="slide-content resultados-layout">
-          <div class="resultados-texto">
-            <div class="resultados-highlight">
-              <div class="stat-number">[CONTENIDO SLIDE 5 — Efecto estimado]</div>
-              <div class="stat-caption">[CONTENIDO SLIDE 5 — Unidad, significancia, intervalo de confianza]</div>
+    <section id="slide-5" data-background-color="#0f1117">
+      <div style="display:flex;flex-direction:column;height:100%;box-sizing:border-box;padding:2.2rem 2.8rem;gap:0.7rem;">
+        <h2 style="font-size:1.2rem;font-weight:700;color:#4f8ef7;margin:0;letter-spacing:0.04em;text-transform:uppercase;flex:0 0 auto;">Resultados principales</h2>
+
+        <div style="flex:1 1 auto;min-height:0;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:0.8rem;">
+
+          <!-- Fila 1: reportes de cumplimiento -->
+          <div style="min-height:0;display:flex;gap:0.5rem;">
+            <div style="width:50%;height:100%;box-sizing:border-box;background:#fff;border-radius:8px;padding:0.4rem;display:flex;align-items:center;justify-content:center;">
+              <img src="assets/I1.png" style="max-width:100%;max-height:100%;object-fit:contain;border-radius:4px;">
             </div>
-            <p class="placeholder">[CONTENIDO SLIDE 5 — Interpretación del resultado principal]</p>
+            <div style="width:50%;height:100%;box-sizing:border-box;background:#fff;border-radius:8px;padding:0.4rem;display:flex;align-items:center;justify-content:center;">
+              <img src="assets/I2.png" style="max-width:100%;max-height:100%;object-fit:contain;border-radius:4px;">
+            </div>
           </div>
-          <div class="resultados-grafico card">
-            <p class="placeholder">[CONTENIDO SLIDE 5 — Gráfico / tabla de resultados]</p>
+          <div style="min-height:0;display:flex;align-items:center;padding:0.6rem 0.8rem;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;box-sizing:border-box;">
+            <p style="margin:0;font-size:1.05rem;color:#ccc;line-height:1.55;">
+              Las distribuciones del <strong style="color:#fff;">Compliance Success Score</strong> se superponen completamente entre grupos. Los odds ratios cruzan 1 en ambos brazos — sin efecto significativo sobre el reporte de cumplimiento.
+            </p>
           </div>
+
+          <!-- Fila 2: gasto en bienes (fragmento, ambos aparecen juntos) -->
+          <div class="fragment" id="s5-row2-imgs" data-fragment-index="1" style="min-height:0;display:flex;gap:0.5rem;">
+            <div style="width:50%;height:100%;box-sizing:border-box;background:#fff;border-radius:8px;padding:0.4rem;display:flex;align-items:center;justify-content:center;">
+              <img src="assets/I3.png" style="max-width:100%;max-height:100%;object-fit:contain;border-radius:4px;">
+            </div>
+            <div style="width:50%;height:100%;box-sizing:border-box;background:#fff;border-radius:8px;padding:0.4rem;display:flex;align-items:center;justify-content:center;">
+              <img src="assets/I4.png" style="max-width:100%;max-height:100%;object-fit:contain;border-radius:4px;">
+            </div>
+          </div>
+          <div class="fragment" id="s5-row2-text" data-fragment-index="1" style="min-height:0;display:flex;align-items:center;padding:0.6rem 0.8rem;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;box-sizing:border-box;">
+            <p style="margin:0;font-size:1.05rem;color:#ccc;line-height:1.55;">
+              La proporción del gasto en <strong style="color:#fff;">bienes públicos vs. club</strong> tampoco difiere entre grupos. Los IC al 90% cruzan cero — resultado nulo consistente en todas las dimensiones de cumplimiento.
+            </p>
+          </div>
+
         </div>
       </div>
     </section>
@@ -1070,6 +1091,99 @@
     if (id === 'card-control') {
       if (branch3) { branch3.style.transition='none'; branch3.style.strokeDashoffset='80'; }
       if (stem)    { stem.style.transition='none';    stem.style.strokeDashoffset='188'; }
+    }
+  });
+})();
+</script>
+
+<script>
+(function() {
+  function drawDensityPlot() {
+    var canvas = document.getElementById('density-canvas');
+    if (!canvas) return;
+    var ctx = canvas.getContext('2d');
+    var W = canvas.width, H = canvas.height;
+    ctx.clearRect(0, 0, W, H);
+
+    // smooth curve helper (quadratic bezier midpoint)
+    function smoothCurve(pts) {
+      ctx.moveTo(pts[0][0], pts[0][1]);
+      for (var i = 1; i < pts.length - 1; i++) {
+        var mx = (pts[i][0] + pts[i + 1][0]) / 2;
+        var my = (pts[i][1] + pts[i + 1][1]) / 2;
+        ctx.quadraticCurveTo(pts[i][0], pts[i][1], mx, my);
+      }
+      ctx.lineTo(pts[pts.length - 1][0], pts[pts.length - 1][1]);
+    }
+
+    function drawFilled(pts, strokeColor, fillColor) {
+      // filled area
+      ctx.beginPath();
+      ctx.moveTo(pts[0][0], H - 8);
+      ctx.lineTo(pts[0][0], pts[0][1]);
+      smoothCurve(pts);
+      ctx.lineTo(pts[pts.length - 1][0], H - 8);
+      ctx.closePath();
+      ctx.fillStyle = fillColor;
+      ctx.fill();
+      // stroke line
+      ctx.beginPath();
+      ctx.moveTo(pts[0][0], pts[0][1]);
+      smoothCurve(pts);
+      ctx.strokeStyle = strokeColor;
+      ctx.lineWidth = 1.8;
+      ctx.stroke();
+    }
+
+    // X: 0→14, 1→W-14  |  Y: density 0→H-8, density 3→8
+    // x_svg = 14 + x*372  |  y_svg = (H-8) - density*34
+
+    // Control (gray, broad)
+    var ctrl = [
+      [14,107],[28,104],[43,99],[57,92],[71,83],[86,74],[100,68],[114,65],
+      [128,67],[157,75],[185,86],[214,96],[242,102],[271,105],[299,107],[386,109]
+    ];
+    // EF (green, medium peak at ~0.28)
+    var ef = [
+      [14,109],[28,107],[43,102],[57,88],[71,67],[86,45],[97,35],[111,32],
+      [114,34],[128,50],[157,74],[185,95],[214,104],[242,107],[271,109],[386,110]
+    ];
+    // ASF (blue, slightly higher peak at ~0.27)
+    var asf = [
+      [14,109],[28,106],[43,99],[57,83],[71,57],[86,31],[94,22],[100,20],
+      [111,25],[128,46],[157,72],[185,94],[214,104],[242,107],[271,109],[386,110]
+    ];
+
+    // Draw back to front: control, ef, asf
+    drawFilled(ctrl, 'rgba(150,150,150,0.9)', 'rgba(150,150,150,0.10)');
+    drawFilled(ef,   'rgba(79,175,122,0.9)',  'rgba(79,175,122,0.13)');
+    drawFilled(asf,  'rgba(79,142,247,0.9)',  'rgba(79,142,247,0.13)');
+
+    // X axis line
+    ctx.beginPath();
+    ctx.moveTo(14, H - 8);
+    ctx.lineTo(W - 14, H - 8);
+    ctx.strokeStyle = '#333';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    // X axis labels
+    ctx.fillStyle = '#555';
+    ctx.font = '10px Inter, sans-serif';
+    ctx.textAlign = 'center';
+    ['0.0','0.25','0.50','0.75','1.0'].forEach(function(label, i) {
+      ctx.fillText(label, 14 + i * 93, H);
+    });
+  }
+
+  Reveal.on('slidechanged', function(e) {
+    if (e.currentSlide && e.currentSlide.id === 'slide-5') {
+      setTimeout(drawDensityPlot, 80);
+    }
+  });
+  Reveal.on('ready', function(e) {
+    if (e.currentSlide && e.currentSlide.id === 'slide-5') {
+      setTimeout(drawDensityPlot, 80);
     }
   });
 })();
