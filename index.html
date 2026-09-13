@@ -940,33 +940,268 @@
     <!-- ============================================================
          SLIDE 6 — MECANISMOS
          ============================================================ -->
-    <section class="slide-mecanismos" style="--accent:var(--orange); --accent-soft:var(--orange-soft);">
-      <div class="slide">
-        <div class="slide-eyebrow"><span class="dot"></span><span class="accent-text">05</span>&nbsp;· Mecanismos</div>
-        <h2 class="slide-title">[CONTENIDO SLIDE 6 — <span class="accent">¿Por qué falló?</span>]</h2>
-        <div class="slide-content mecanismos-layout">
-          <div class="mecanismo-card card">
-            <span class="mecanismo-index">M1</span>
-            <span class="mecanismo-title">[CONTENIDO SLIDE 6 — Mecanismo hipotético 1]</span>
-            <p class="placeholder">[CONTENIDO SLIDE 6 — Explicación breve]</p>
-          </div>
-          <div class="mecanismo-card card">
-            <span class="mecanismo-index">M2</span>
-            <span class="mecanismo-title">[CONTENIDO SLIDE 6 — Mecanismo hipotético 2]</span>
-            <p class="placeholder">[CONTENIDO SLIDE 6 — Explicación breve]</p>
-          </div>
-          <div class="mecanismo-card card">
-            <span class="mecanismo-index">M3</span>
-            <span class="mecanismo-title">[CONTENIDO SLIDE 6 — Mecanismo hipotético 3]</span>
-            <p class="placeholder">[CONTENIDO SLIDE 6 — Explicación breve]</p>
-          </div>
-          <div class="mecanismo-card card">
-            <span class="mecanismo-index">M4</span>
-            <span class="mecanismo-title">[CONTENIDO SLIDE 6 — Mecanismo hipotético 4]</span>
-            <p class="placeholder">[CONTENIDO SLIDE 6 — Explicación breve]</p>
-          </div>
-        </div>
+    <section data-background-color="#0f1117">
+
+      <!-- Estilos locales del slide -->
+      <style>
+        @keyframes mecPulse {
+          0%,100% { box-shadow: 0 0 0 0 rgba(79,142,247,0.0); }
+          50%      { box-shadow: 0 0 0 10px rgba(79,142,247,0.18); }
+        }
+        @keyframes mecShake {
+          0%,100% { transform: translateX(0) translateY(0); }
+          20%     { transform: translateX(-5px) translateY(0); }
+          40%     { transform: translateX(5px) translateY(0); }
+          60%     { transform: translateX(-4px) translateY(0); }
+          80%     { transform: translateX(4px) translateY(0); }
+        }
+        @keyframes mecBadgePop {
+          0%   { transform: scale(0) rotate(-20deg); }
+          70%  { transform: scale(1.2) rotate(5deg); }
+          100% { transform: scale(1) rotate(0deg); }
+        }
+        @keyframes mecGlowGreen {
+          0%,100% { box-shadow: 0 0 12px rgba(79,175,122,0.2); }
+          50%     { box-shadow: 0 0 26px rgba(79,175,122,0.45); }
+        }
+        @keyframes mecBreakFlash {
+          0%,100% { opacity:1; }
+          30%     { opacity:0.3; }
+          60%     { opacity:1; }
+        }
+
+        .mec-node {
+          width:178px; min-height:132px;
+          border:2px solid rgba(255,255,255,0.1);
+          border-radius:16px;
+          padding:0.85rem 0.7rem 0.65rem;
+          display:flex; flex-direction:column; align-items:center; gap:0.3rem;
+          position:relative;
+          background:rgba(255,255,255,0.03);
+          flex-shrink:0;
+          transition: border-color 0.45s ease, background 0.45s ease, box-shadow 0.45s ease;
+        }
+        .mec-node .mec-icon  { font-size:1.9rem; line-height:1; }
+        .mec-node .mec-label { font-size:0.92rem; font-weight:700; color:#fff; text-align:center; line-height:1.25; }
+        .mec-node .mec-sub   { font-size:0.74rem; color:#888; text-align:center; line-height:1.35; margin-top:0.15rem; }
+        .mec-node .mec-badge {
+          position:absolute; top:-15px; right:-15px;
+          width:32px; height:32px; border-radius:50%;
+          display:flex; align-items:center; justify-content:center;
+          font-size:0.95rem; font-weight:700;
+          opacity:0; pointer-events:none;
+        }
+
+        .mec-node.mec-n1-active {
+          border-color:#4f8ef7;
+          animation: mecPulse 2.2s ease-in-out 0.4s infinite;
+        }
+        .mec-node.mec-confirmed {
+          border-color:#4faf7a;
+          background:rgba(79,175,122,0.06);
+          animation: mecGlowGreen 2.4s ease-in-out infinite;
+        }
+        .mec-node.mec-confirmed .mec-badge {
+          background:rgba(79,175,122,0.18);
+          border:1.5px solid #4faf7a;
+          color:#4faf7a;
+          opacity:1;
+          animation: mecBadgePop 0.45s cubic-bezier(0.34,1.56,0.64,1) forwards;
+        }
+        .mec-node.mec-broken {
+          border-color:#e05c5c;
+          background:rgba(224,92,92,0.06);
+          box-shadow:0 0 20px rgba(224,92,92,0.22);
+        }
+        .mec-node.mec-broken .mec-badge {
+          background:rgba(224,92,92,0.18);
+          border:1.5px solid #e05c5c;
+          color:#e05c5c;
+          opacity:1;
+          animation: mecBadgePop 0.45s cubic-bezier(0.34,1.56,0.64,1) forwards;
+        }
+        .mec-node.mec-shake { animation: mecShake 0.5s ease forwards; }
+
+        .mec-arrow { flex-shrink:0; display:flex; align-items:center; justify-content:center; }
+      </style>
+
+      <div style="display:flex;flex-direction:column;height:100%;box-sizing:border-box;padding:2.2rem 2.8rem;justify-content:center;gap:1.1rem;">
+
+      <div>
+        <h2 style="font-size:1.2rem;font-weight:700;color:#4f8ef7;margin:0 0 0.3rem;letter-spacing:0.04em;text-transform:uppercase;">Mecanismos</h2>
+        <p style="margin:0;font-size:0.9rem;color:#888;">El paper testea cada eslabón de la cadena causal entre auditoría y cumplimiento</p>
       </div>
+
+      <!-- ── Cadena causal ── -->
+      <div style="display:flex;align-items:center;justify-content:center;gap:0;">
+
+        <!-- Nodo 1: Auditoría -->
+        <div class="mec-node mec-n1-active" id="mec-n1">
+          <div class="mec-icon">
+            <svg width="40" height="40" viewBox="0 0 34 34" fill="none">
+              <circle cx="14" cy="14" r="8" stroke="rgba(255,255,255,0.75)" stroke-width="2.2"/>
+              <line x1="20" y1="20" x2="28" y2="28" stroke="rgba(255,255,255,0.75)" stroke-width="2.2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="mec-label">Auditoría</div>
+          <div class="mec-sub">Asignación aleatoria<br>ASF · EF · Control</div>
+        </div>
+
+        <!-- Flecha 1 -->
+        <div class="mec-arrow" style="width:84px;">
+          <svg id="mec-arr1" viewBox="0 0 72 24" width="84" height="28">
+            <path id="mec-p1" d="M2,12 L58,12" stroke="#333" stroke-width="2.2" fill="none"
+                  stroke-dasharray="56" stroke-dashoffset="56" stroke-linecap="round"/>
+            <polygon id="mec-h1" points="58,6 70,12 58,18" fill="#333" opacity="0"/>
+          </svg>
+        </div>
+
+        <!-- Nodo 2: Severidad -->
+        <div class="mec-node" id="mec-n2" style="opacity:0;transform:translateY(14px);transition:opacity 0.4s ease,transform 0.4s ease;">
+          <div class="mec-icon">
+            <svg width="40" height="40" viewBox="0 0 34 34" fill="none">
+              <rect x="4"  y="20" width="6" height="10" rx="1.5" fill="rgba(255,255,255,0.55)"/>
+              <rect x="14" y="13" width="6" height="17" rx="1.5" fill="rgba(255,255,255,0.75)"/>
+              <rect x="24" y="6"  width="6" height="24" rx="1.5" fill="rgba(255,255,255,0.90)"/>
+            </svg>
+          </div>
+          <div class="mec-label">Severidad del reporte</div>
+          <div class="mec-sub">ASF más severo que EF<br><span style="color:#4faf7a;font-style:italic;">Fig. 5 ✓</span></div>
+          <div class="mec-badge">✅</div>
+        </div>
+
+        <!-- Flecha 2 -->
+        <div class="mec-arrow" style="width:84px;">
+          <svg id="mec-arr2" viewBox="0 0 72 24" width="84" height="28">
+            <path id="mec-p2" d="M2,12 L58,12" stroke="#333" stroke-width="2.2" fill="none"
+                  stroke-dasharray="56" stroke-dashoffset="56" stroke-linecap="round"/>
+            <polygon id="mec-h2" points="58,6 70,12 58,18" fill="#333" opacity="0"/>
+          </svg>
+        </div>
+
+        <!-- Nodo 3: Creencias -->
+        <div class="mec-node" id="mec-n3" style="opacity:0;transform:translateY(14px);transition:opacity 0.4s ease,transform 0.4s ease;">
+          <div class="mec-icon">
+            <svg width="40" height="40" viewBox="0 0 34 34" fill="none">
+              <circle cx="17" cy="12" r="6" stroke="rgba(255,255,255,0.75)" stroke-width="2.2"/>
+              <path d="M5 30 Q5 21 17 21 Q29 21 29 30" stroke="rgba(255,255,255,0.75)" stroke-width="2.2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="mec-label">Creencias de auditoría</div>
+          <div class="mec-sub">ASF: +0.09 prob. percibida<br><span style="color:#4faf7a;font-style:italic;">Table 2, largo plazo ✓</span></div>
+          <div class="mec-badge">✅</div>
+        </div>
+
+        <!-- Flecha 3 (rota) -->
+        <div class="mec-arrow" style="width:100px;">
+          <svg id="mec-arr3" viewBox="0 0 88 30" width="100" height="34">
+            <!-- segmento izquierdo -->
+            <path id="mec-p3a" d="M2,15 L34,15" stroke="#333" stroke-width="2.2" fill="none"
+                  stroke-dasharray="32" stroke-dashoffset="32" stroke-linecap="round"/>
+            <!-- rayo de ruptura -->
+            <path id="mec-p3b" d="M34,15 L40,5 L48,25 L54,15" stroke="#e05c5c" stroke-width="2.2"
+                  fill="none" opacity="0" stroke-linecap="round" stroke-linejoin="round"/>
+            <!-- segmento derecho -->
+            <path id="mec-p3c" d="M54,15 L76,15" stroke="#e05c5c" stroke-width="2.2" fill="none"
+                  stroke-dasharray="22" stroke-dashoffset="22" stroke-linecap="round" opacity="0"/>
+            <polygon id="mec-h3" points="76,8 88,15 76,22" fill="#e05c5c" opacity="0"/>
+          </svg>
+        </div>
+
+        <!-- Nodo 4: Cumplimiento -->
+        <div class="mec-node" id="mec-n4" style="opacity:0;transform:translateY(14px);transition:opacity 0.4s ease,transform 0.4s ease;">
+          <div class="mec-icon">
+            <svg width="40" height="40" viewBox="0 0 34 34" fill="none">
+              <circle cx="17" cy="17" r="11" stroke="rgba(255,255,255,0.75)" stroke-width="2.2"/>
+              <path d="M10 17 L15 22 L24 12" stroke="rgba(255,255,255,0.75)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="mec-label">Cumplimiento FISM</div>
+          <div class="mec-sub">β ≈ 0, IC cruzan cero<br><span style="color:#e05c5c;font-style:italic;">Resultado nulo</span></div>
+          <div class="mec-badge">✗</div>
+        </div>
+
+      </div><!-- /cadena -->
+
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;
+                  gap:0.9rem;">
+
+        <div id="mec-chip-sev"
+             style="background:rgba(79,175,122,0.07);
+                    border:1px solid rgba(79,175,122,0.35);
+                    border-radius:8px;padding:0.75rem 0.9rem;
+                    text-align:center;opacity:0;
+                    transition:opacity 0.5s ease;">
+          <p style="margin:0;font-size:0.72rem;color:#4faf7a;
+                    letter-spacing:0.05em;text-transform:uppercase;
+                    font-weight:700;">Severidad · Fig. 5</p>
+          <p style="margin:0.25rem 0 0;font-size:0.75rem;
+                    color:#ddd;line-height:1.4;">
+            ASF reporta +4.1 irregularidades adicionales<br>
+            <span style="color:#888;font-size:0.76rem;">(p&nbsp;&lt;&nbsp;0.01)</span>
+          </p>
+        </div>
+
+        <div id="mec-chip-cre"
+             style="background:rgba(79,175,122,0.07);
+                    border:1px solid rgba(79,175,122,0.35);
+                    border-radius:8px;padding:0.75rem 0.9rem;
+                    text-align:center;opacity:0;
+                    transition:opacity 0.5s ease;">
+          <p style="margin:0;font-size:0.72rem;color:#4faf7a;
+                    letter-spacing:0.05em;text-transform:uppercase;
+                    font-weight:700;">Creencias · Tab. 2</p>
+          <p style="margin:0.25rem 0 0;font-size:0.75rem;
+                    color:#ddd;line-height:1.4;">
+            ASF eleva la prob. de auditoría (largo plazo)<br>
+            <span style="color:#888;font-size:0.76rem;">
+              β = 0.09, IC [0.03, 0.18]
+            </span>
+          </p>
+        </div>
+
+        <div id="mec-chip-cum"
+             style="background:rgba(224,92,92,0.07);
+                    border:1px solid rgba(224,92,92,0.25);
+                    border-radius:8px;padding:0.75rem 0.9rem;
+                    text-align:center;opacity:0;
+                    transition:opacity 0.5s ease;">
+          <p style="margin:0;font-size:0.72rem;color:#e05c5c;
+                    letter-spacing:0.05em;text-transform:uppercase;
+                    font-weight:700;">Cumplimiento · Fig. 4</p>
+          <p style="margin:0.25rem 0 0;font-size:0.75rem;
+                    color:#ddd;line-height:1.4;">
+            Efecto nulo en FISM<br>
+            <span style="color:#888;font-size:0.76rem;">
+              β&nbsp;=&nbsp;0.02, IC cruza cero
+            </span>
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Conclusión (último fragmento) -->
+      <div id="mec-conclusion"
+           style="margin-top:0;padding:0.9rem 1.4rem;
+                  background:rgba(79,142,247,0.06);border:1px solid rgba(79,142,247,0.2);
+                  border-radius:10px;opacity:0;transform:translateY(8px);
+                  transition:opacity 0.5s ease,transform 0.5s ease;">
+        <p style="margin:0;font-size:1rem;color:#ccc;line-height:1.6;text-align:center;">
+          Las auditorías mejoran la <strong style="color:#4faf7a;">severidad de los reportes</strong>
+          y actualizan <strong style="color:#4faf7a;">creencias de largo plazo</strong> —
+          pero eso <strong style="color:#e05c5c;">no basta</strong> para cambiar el comportamiento
+          de gasto municipal. La cadena causal se rompe en el último eslabón.
+        </p>
+      </div>
+
+      </div><!-- /wrapper -->
+
+      <!-- Fragmentos de control (invisibles) -->
+      <span class="fragment" id="mec-step1" style="display:none;"></span>
+      <span class="fragment" id="mec-step2" style="display:none;"></span>
+      <span class="fragment" id="mec-step3" style="display:none;"></span>
+      <span class="fragment" id="mec-step4" style="display:none;"></span>
+
     </section>
 
     <!-- ============================================================
@@ -1187,6 +1422,153 @@
     }
   });
 })();
+
+// ── Mecanismos (Slide 6) ─────────────────────────────────────
+(function () {
+  function animArrow(pathId, headId, color, delay) {
+    delay = delay || 0;
+    setTimeout(function () {
+      var p = document.getElementById(pathId);
+      var h = document.getElementById(headId);
+      if (p) {
+        p.style.stroke = color;
+        p.style.transition = 'stroke-dashoffset 0.42s ease, stroke 0.2s';
+        p.style.strokeDashoffset = '0';
+      }
+      setTimeout(function () {
+        if (h) { h.style.fill = color; h.style.opacity = '1'; h.style.transition = 'opacity 0.2s'; }
+      }, 420);
+    }, delay);
+  }
+
+  function showNode(id, cls, delay) {
+    setTimeout(function () {
+      var n = document.getElementById(id);
+      if (!n) return;
+      n.style.opacity = '1';
+      n.style.transform = 'translateY(0)';
+      setTimeout(function () { n.classList.add(cls); }, 80);
+    }, delay);
+  }
+
+  function animBrokenArrow() {
+    // segmento izquierdo
+    var p3a = document.getElementById('mec-p3a');
+    if (p3a) {
+      p3a.style.transition = 'stroke-dashoffset 0.28s ease';
+      p3a.style.strokeDashoffset = '0';
+    }
+    // rayo de ruptura
+    setTimeout(function () {
+      var p3b = document.getElementById('mec-p3b');
+      if (p3b) {
+        p3b.style.transition = 'opacity 0.18s';
+        p3b.style.opacity = '1';
+        p3b.style.animation = 'mecBreakFlash 0.6s ease';
+      }
+    }, 300);
+    // segmento derecho + punta
+    setTimeout(function () {
+      var p3c = document.getElementById('mec-p3c');
+      if (p3c) {
+        p3c.style.opacity = '1';
+        p3c.style.transition = 'stroke-dashoffset 0.22s ease';
+        p3c.style.strokeDashoffset = '0';
+      }
+      setTimeout(function () {
+        var h3 = document.getElementById('mec-h3');
+        if (h3) { h3.style.opacity = '1'; h3.style.transition = 'opacity 0.15s'; }
+      }, 220);
+    }, 490);
+  }
+
+  function resetMec() {
+    ['mec-n2','mec-n3','mec-n4'].forEach(function(id){
+      var n = document.getElementById(id);
+      if (!n) return;
+      n.style.opacity = '0';
+      n.style.transform = 'translateY(14px)';
+      n.classList.remove('mec-confirmed','mec-broken','mec-shake');
+    });
+    [['mec-p1','mec-h1'],['mec-p2','mec-h2'],['mec-p3a','mec-h3'],['mec-p3c',null],['mec-p3b',null]].forEach(function(pair){
+      var p = document.getElementById(pair[0]);
+      if (p) { p.style.transition='none'; p.style.strokeDashoffset = p.getAttribute('stroke-dasharray')||'56'; p.style.opacity='1'; }
+      if (pair[1]) { var h=document.getElementById(pair[1]); if(h){h.style.opacity='0'; h.style.transition='none';} }
+    });
+    var p3b = document.getElementById('mec-p3b');
+    if (p3b) { p3b.style.transition='none'; p3b.style.opacity='0'; }
+    var p3c = document.getElementById('mec-p3c');
+    if (p3c) { p3c.style.transition='none'; p3c.style.opacity='0'; p3c.style.strokeDashoffset='22'; }
+    var concl = document.getElementById('mec-conclusion');
+    if (concl) { concl.style.opacity='0'; concl.style.transform='translateY(8px)'; }
+    ['mec-chip-sev','mec-chip-cre','mec-chip-cum'].forEach(function(id){
+      var c = document.getElementById(id);
+      if (c) c.style.opacity = '0';
+    });
+  }
+
+  Reveal.on('fragmentshown', function (e) {
+    var id = e.fragment.id;
+
+    if (id === 'mec-step1') {
+      animArrow('mec-p1','mec-h1','#4faf7a', 0);
+      showNode('mec-n2','mec-confirmed', 450);
+      var cSev = document.getElementById('mec-chip-sev');
+      if (cSev) cSev.style.opacity = '1';
+    }
+    if (id === 'mec-step2') {
+      animArrow('mec-p2','mec-h2','#4faf7a', 0);
+      showNode('mec-n3','mec-confirmed', 450);
+      var cCre = document.getElementById('mec-chip-cre');
+      if (cCre) cCre.style.opacity = '1';
+    }
+    if (id === 'mec-step3') {
+      animBrokenArrow();
+      showNode('mec-n4','mec-broken', 650);
+      setTimeout(function(){
+        var n4=document.getElementById('mec-n4');
+        if(n4){n4.classList.add('mec-shake');}
+        setTimeout(function(){if(n4){n4.classList.remove('mec-shake');}},520);
+      }, 1050);
+      var cCum = document.getElementById('mec-chip-cum');
+      if (cCum) cCum.style.opacity = '1';
+    }
+    if (id === 'mec-step4') {
+      var concl = document.getElementById('mec-conclusion');
+      if (concl) { concl.style.opacity='1'; concl.style.transform='translateY(0)'; }
+    }
+  });
+
+  Reveal.on('fragmenthidden', function (e) {
+    var id = e.fragment.id;
+    if (id === 'mec-step1') { resetMec(); }
+    if (id === 'mec-step2') {
+      var n3=document.getElementById('mec-n3');
+      if(n3){n3.style.opacity='0';n3.style.transform='translateY(14px)';n3.classList.remove('mec-confirmed');}
+      var p2=document.getElementById('mec-p2'); if(p2){p2.style.transition='none';p2.style.strokeDashoffset='56';}
+      var h2=document.getElementById('mec-h2'); if(h2){h2.style.transition='none';h2.style.opacity='0';}
+      var cCre = document.getElementById('mec-chip-cre');
+      if (cCre) cCre.style.opacity = '0';
+    }
+    if (id === 'mec-step3') {
+      var n4=document.getElementById('mec-n4');
+      if(n4){n4.style.opacity='0';n4.style.transform='translateY(14px)';n4.classList.remove('mec-broken','mec-shake');}
+      ['mec-p3a','mec-p3b','mec-p3c','mec-h3'].forEach(function(pid){
+        var el=document.getElementById(pid); if(!el)return;
+        el.style.transition='none'; el.style.opacity=(pid==='mec-p3b'||pid==='mec-p3c')?'0':'1';
+        if(pid==='mec-p3a')el.style.strokeDashoffset='32';
+        if(pid==='mec-p3c')el.style.strokeDashoffset='22';
+      });
+      var cCum = document.getElementById('mec-chip-cum');
+      if (cCum) cCum.style.opacity = '0';
+    }
+    if (id === 'mec-step4') {
+      var concl=document.getElementById('mec-conclusion');
+      if(concl){concl.style.opacity='0';concl.style.transform='translateY(8px)';}
+    }
+  });
+})();
+// ── Fin Mecanismos ───────────────────────────────────────────
 </script>
 </body>
 </html>
