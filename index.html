@@ -1207,25 +1207,232 @@
     <!-- ============================================================
          SLIDE 7 — CRÍTICA Y VALIDEZ
          ============================================================ -->
-    <section class="slide-critica" style="--accent:var(--red); --accent-soft:var(--red-soft);">
-      <div class="slide">
-        <div class="slide-eyebrow"><span class="dot"></span><span class="accent-text">06</span>&nbsp;· Crítica y validez</div>
-        <h2 class="slide-title">[CONTENIDO SLIDE 7 — <span class="accent">Título de la evaluación crítica</span>]</h2>
-        <div class="slide-content critica-layout">
-          <div class="critica-col">
-            <div class="card-label">Validez interna</div>
-            <div class="card">
-              <p class="placeholder">[CONTENIDO SLIDE 7 — Amenazas a la validez interna: atrición, contaminación, etc.]</p>
-            </div>
+    <section data-background-color="#0f1117">
+      <div style="display:flex;flex-direction:column;height:100%;box-sizing:border-box;padding:2.2rem 2.8rem;justify-content:center;gap:1rem;">
+      <div>
+        <h2 style="font-size:1.5rem;font-weight:700;color:#4f8ef7;
+                   margin:0;letter-spacing:0.04em;
+                   text-transform:uppercase;">
+          Crítica y validez
+        </h2>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;">
+
+        <!-- ── FORTALEZAS ── -->
+        <div style="display:flex;flex-direction:column;gap:0;">
+          <div style="background:rgba(79,175,122,0.12);border:1px solid rgba(79,175,122,0.4);
+                      border-radius:10px 10px 0 0;padding:0.55rem 0.9rem;
+                      display:flex;align-items:center;gap:0.5rem;">
+            <svg width="20" height="20" viewBox="0 0 16 16" fill="none">
+              <circle cx="8" cy="8" r="7" stroke="#4faf7a" stroke-width="1.8"/>
+              <path d="M4.5 8 L7 10.5 L11.5 5.5" stroke="#4faf7a" stroke-width="1.8"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span style="font-size:0.95rem;font-weight:700;color:#4faf7a;
+                         letter-spacing:0.05em;text-transform:uppercase;">
+              Fortalezas
+            </span>
           </div>
-          <div class="critica-col">
-            <div class="card-label" style="--accent:var(--orange); color:var(--orange);">Validez externa</div>
-            <div class="card" style="--accent:var(--orange);">
-              <p class="placeholder">[CONTENIDO SLIDE 7 — Generalización de los resultados a otros contextos]</p>
+          <div style="border:1px solid rgba(79,175,122,0.2);border-top:none;
+                      border-radius:0 0 10px 10px;overflow:hidden;">
+
+            <!-- items -->
+            <div class="fragment" data-fragment-index="1" style="padding:0.7rem 0.9rem;border-bottom:1px solid rgba(255,255,255,0.05);
+                        display:flex;gap:0.7rem;align-items:flex-start;">
+              <span style="min-width:22px;height:22px;border-radius:50%;
+                           background:rgba(79,175,122,0.2);color:#4faf7a;
+                           font-size:0.75rem;font-weight:700;display:flex;
+                           align-items:center;justify-content:center;margin-top:1px;">1</span>
+              <div>
+                <p style="margin:0;font-size:0.95rem;font-weight:700;color:#ddd;">
+                  Diseño experimental riguroso
+                </p>
+                <p style="margin:0.22rem 0 0;font-size:0.86rem;color:#999;line-height:1.42;">
+                  Asignación aleatoria verificada — las diferencias observadas
+                  se atribuyen causalmente a la auditoría
+                </p>
+              </div>
             </div>
+
+            <div class="fragment" data-fragment-index="2" style="padding:0.7rem 0.9rem;border-bottom:1px solid rgba(255,255,255,0.05);
+                        display:flex;gap:0.7rem;align-items:flex-start;">
+              <span style="min-width:22px;height:22px;border-radius:50%;
+                           background:rgba(79,175,122,0.2);color:#4faf7a;
+                           font-size:0.75rem;font-weight:700;display:flex;
+                           align-items:center;justify-content:center;margin-top:1px;">2</span>
+              <div>
+                <p style="margin:0;font-size:0.95rem;font-weight:700;color:#ddd;">
+                  Estimación conservadora (ITT)
+                </p>
+                <p style="margin:0.22rem 0 0;font-size:0.86rem;color:#999;line-height:1.42;">
+                  Analiza todos los municipios asignados — evita inflar
+                  artificialmente el efecto
+                </p>
+              </div>
+            </div>
+
+            <div class="fragment" data-fragment-index="3" style="padding:0.7rem 0.9rem;border-bottom:1px solid rgba(255,255,255,0.05);
+                        display:flex;gap:0.7rem;align-items:flex-start;">
+              <span style="min-width:22px;height:22px;border-radius:50%;
+                           background:rgba(79,175,122,0.2);color:#4faf7a;
+                           font-size:0.75rem;font-weight:700;display:flex;
+                           align-items:center;justify-content:center;margin-top:1px;">3</span>
+              <div>
+                <p style="margin:0;font-size:0.95rem;font-weight:700;color:#ddd;">
+                  Precaución estadística
+                </p>
+                <p style="margin:0.22rem 0 0;font-size:0.86rem;color:#999;line-height:1.42;">
+                  Correcciones para comparaciones múltiples — reduce el
+                  riesgo de hallazgos por azar
+                </p>
+              </div>
+            </div>
+
+            <div class="fragment" data-fragment-index="4" style="padding:0.7rem 0.9rem;border-bottom:1px solid rgba(255,255,255,0.05);
+                        display:flex;gap:0.7rem;align-items:flex-start;">
+              <span style="min-width:22px;height:22px;border-radius:50%;
+                           background:rgba(79,175,122,0.2);color:#4faf7a;
+                           font-size:0.75rem;font-weight:700;display:flex;
+                           align-items:center;justify-content:center;margin-top:1px;">4</span>
+              <div>
+                <p style="margin:0;font-size:0.95rem;font-weight:700;color:#ddd;">
+                  Van más allá del efecto final
+                </p>
+                <p style="margin:0.22rem 0 0;font-size:0.86rem;color:#999;line-height:1.42;">
+                  Miden si los reportes se volvieron más severos y si los
+                  funcionarios cambiaron su percepción de riesgo
+                </p>
+              </div>
+            </div>
+
+            <div class="fragment" data-fragment-index="5" style="padding:0.7rem 0.9rem;display:flex;gap:0.7rem;align-items:flex-start;">
+              <span style="min-width:22px;height:22px;border-radius:50%;
+                           background:rgba(79,175,122,0.2);color:#4faf7a;
+                           font-size:0.75rem;font-weight:700;display:flex;
+                           align-items:center;justify-content:center;margin-top:1px;">5</span>
+              <div>
+                <p style="margin:0;font-size:0.95rem;font-weight:700;color:#ddd;">
+                  El resultado nulo es creíble
+                </p>
+                <p style="margin:0.22rem 0 0;font-size:0.86rem;color:#999;line-height:1.42;">
+                  El diseño tenía poder suficiente para detectar efectos
+                  moderados — si no se encontró nada, probablemente no lo hay
+                </p>
+              </div>
+            </div>
+
           </div>
         </div>
+
+        <!-- ── LIMITACIONES ── -->
+        <div style="display:flex;flex-direction:column;gap:0;">
+          <div style="background:rgba(224,92,92,0.12);border:1px solid rgba(224,92,92,0.4);
+                      border-radius:10px 10px 0 0;padding:0.55rem 0.9rem;
+                      display:flex;align-items:center;gap:0.5rem;">
+            <svg width="20" height="20" viewBox="0 0 16 16" fill="none">
+              <circle cx="8" cy="8" r="7" stroke="#e05c5c" stroke-width="1.8"/>
+              <line x1="8" y1="4.5" x2="8" y2="9" stroke="#e05c5c" stroke-width="1.8"
+                    stroke-linecap="round"/>
+              <circle cx="8" cy="11.5" r="1" fill="#e05c5c"/>
+            </svg>
+            <span style="font-size:0.95rem;font-weight:700;color:#e05c5c;
+                         letter-spacing:0.05em;text-transform:uppercase;">
+              Limitaciones
+            </span>
+          </div>
+          <div style="border:1px solid rgba(224,92,92,0.2);border-top:none;
+                      border-radius:0 0 10px 10px;overflow:hidden;">
+
+            <div class="fragment" data-fragment-index="1" style="padding:0.7rem 0.9rem;border-bottom:1px solid rgba(255,255,255,0.05);
+                        display:flex;gap:0.7rem;align-items:flex-start;">
+              <span style="min-width:22px;height:22px;border-radius:50%;
+                           background:rgba(224,92,92,0.2);color:#e05c5c;
+                           font-size:0.75rem;font-weight:700;display:flex;
+                           align-items:center;justify-content:center;margin-top:1px;">1</span>
+              <div>
+                <p style="margin:0;font-size:0.95rem;font-weight:700;color:#ddd;">
+                  Contexto muy específico
+                </p>
+                <p style="margin:0.22rem 0 0;font-size:0.86rem;color:#999;line-height:1.42;">
+                  Un estado (Oaxaca), un fondo (FISM), municipios rurales —
+                  no es claro que aplique en ciudades o en otros programas
+                </p>
+              </div>
+            </div>
+
+            <div class="fragment" data-fragment-index="2" style="padding:0.7rem 0.9rem;border-bottom:1px solid rgba(255,255,255,0.05);
+                        display:flex;gap:0.7rem;align-items:flex-start;">
+              <span style="min-width:22px;height:22px;border-radius:50%;
+                           background:rgba(224,92,92,0.2);color:#e05c5c;
+                           font-size:0.75rem;font-weight:700;display:flex;
+                           align-items:center;justify-content:center;margin-top:1px;">2</span>
+              <div>
+                <p style="margin:0;font-size:0.95rem;font-weight:700;color:#ddd;">
+                  Muestra pequeña para comparar subgrupos
+                </p>
+                <p style="margin:0.22rem 0 0;font-size:0.86rem;color:#999;line-height:1.42;">
+                  Con 85 municipios no hay poder para saber si el efecto varía
+                  según corrupción local o capacidad administrativa
+                </p>
+              </div>
+            </div>
+
+            <div class="fragment" data-fragment-index="3" style="padding:0.7rem 0.9rem;border-bottom:1px solid rgba(255,255,255,0.05);
+                        display:flex;gap:0.7rem;align-items:flex-start;">
+              <span style="min-width:22px;height:22px;border-radius:50%;
+                           background:rgba(224,92,92,0.2);color:#e05c5c;
+                           font-size:0.75rem;font-weight:700;display:flex;
+                           align-items:center;justify-content:center;margin-top:1px;">3</span>
+              <div>
+                <p style="margin:0;font-size:0.95rem;font-weight:700;color:#ddd;">
+                  Posible contaminación entre grupos
+                </p>
+                <p style="margin:0.22rem 0 0;font-size:0.86rem;color:#999;line-height:1.42;">
+                  Los auditores trabajan en la misma región — su presencia
+                  puede afectar a municipios del grupo control sin que se detecte
+                </p>
+              </div>
+            </div>
+
+            <div class="fragment" data-fragment-index="4" style="padding:0.7rem 0.9rem;border-bottom:1px solid rgba(255,255,255,0.05);
+                        display:flex;gap:0.7rem;align-items:flex-start;">
+              <span style="min-width:22px;height:22px;border-radius:50%;
+                           background:rgba(224,92,92,0.2);color:#e05c5c;
+                           font-size:0.75rem;font-weight:700;display:flex;
+                           align-items:center;justify-content:center;margin-top:1px;">4</span>
+              <div>
+                <p style="margin:0;font-size:0.95rem;font-weight:700;color:#ddd;">
+                  Las creencias se miden con encuesta
+                </p>
+                <p style="margin:0.22rem 0 0;font-size:0.86rem;color:#999;line-height:1.42;">
+                  Los funcionarios pueden dar respuestas políticamente correctas
+                  en lugar de sus percepciones reales
+                </p>
+              </div>
+            </div>
+
+            <div class="fragment" data-fragment-index="5" style="padding:0.7rem 0.9rem;display:flex;gap:0.7rem;align-items:flex-start;">
+              <span style="min-width:22px;height:22px;border-radius:50%;
+                           background:rgba(224,92,92,0.2);color:#e05c5c;
+                           font-size:0.75rem;font-weight:700;display:flex;
+                           align-items:center;justify-content:center;margin-top:1px;">5</span>
+              <div>
+                <p style="margin:0;font-size:0.95rem;font-weight:700;color:#ddd;">
+                  Seguimiento de corto plazo
+                </p>
+                <p style="margin:0.22rem 0 0;font-size:0.86rem;color:#999;line-height:1.42;">
+                  Solo cubren un ciclo de gasto — efectos de más largo plazo
+                  (cambio institucional, rotación de funcionarios) quedan fuera
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
       </div>
+      </div><!-- /wrapper -->
     </section>
 
     <!-- ============================================================
